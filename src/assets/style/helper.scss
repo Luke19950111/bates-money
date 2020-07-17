@@ -4,3 +4,11 @@ $font-song: Georgia, "Nimbus Roman No9 L", "Songti SC", "Noto Serif CJK SC", "So
 $font-fang-song: Baskerville, "Times New Roman", "Liberation Serif", STFangsong, FangSong, FangSong_GB2312, "CWTEX\-F", serif;
 
 $color-highlight: #f00;
+
+%clearFix{
+  &::after{
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
