@@ -14,7 +14,7 @@
         <div>
             <label class="notes">
                 <span class="name">备注</span>
-                <input type="text">
+                <input type="text" placeholder="在这里输入备注">
             </label>
         </div>
         <div>
@@ -75,6 +75,48 @@
                 color: #999;
                 border-bottom: 1px solid;
                 padding: 0 4px;
+            }
+        }
+    }
+    .notes{
+        background: #f5f5f5;
+        font-size: 14px;
+        padding-left: 16px;
+        display: flex;
+        align-items: center;
+        .name{
+            padding-right: 16px;
+        }
+        input{
+            height: 64px;
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            padding-right: 16px;
+        }
+    }
+    .types{
+        background: #c4c4c4;
+        display: flex;
+        text-align: center;
+        font-size: 24px;
+        > li{
+            width: 50%;
+            height: 64px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            &.selected{
+                &::after{
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 4px;
+                    background: #333;
+                }
             }
         }
     }
