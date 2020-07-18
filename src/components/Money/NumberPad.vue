@@ -58,11 +58,11 @@
         }
 
         clear() {
-            this.output = '0'
+            this.output = '0';
         }
 
         ok() {
-
+            this.$emit('update:value', this.output);
         }
     }
 </script>
