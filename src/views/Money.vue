@@ -1,9 +1,8 @@
 <template>
     <Layout class-prefix="layout">
-        {{recordList}}
         <NumberPad :value.sync="record.amount" @update:value="onUpdateAmount" @submit="saveRecord"/>
         <Types :value.sync="record.type"/>
-        <Notes @update:value="onUpdateNotes"/>
+        <Notes field-name="备注" placeholder="在此输入备注" @update:value="onUpdateNotes"/>
         <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
     </Layout>
 </template>
@@ -21,7 +20,7 @@
 
     const version = window.localStorage.getItem('version') || 0;
     const recordList = recordListModel.fetch();
-    const tagList = tagListModel.fetch()
+    const tagList = tagListModel.fetch();
 
     if (version === '0.0.1') {
         // 数据库升级，数据迁移
