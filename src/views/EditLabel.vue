@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <Layout>
         编辑标签
-    </div>
+    </Layout>
 </template>
 
 <script lang="ts">
