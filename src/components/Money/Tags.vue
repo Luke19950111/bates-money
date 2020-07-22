@@ -29,7 +29,7 @@
             } else {
                 this.selectedTags.push(tag);
             }
-            this.$emit('update:value', this.selectedTags)
+            this.$emit('update:value', this.selectedTags);
         }
 
         create() {
@@ -45,6 +45,7 @@
 
 <style lang="scss" scoped>
     .tags {
+        background: white;
         font-size: 14px;
         padding: 16px;
         flex-grow: 1;
