@@ -22,17 +22,6 @@
 
     const version = window.localStorage.getItem('version') || 0;
     const recordList = recordListModel.fetch();
-    const tagList = tagListModel.fetch();
-
-    if (version === '0.0.1') {
-        // 数据库升级，数据迁移
-        recordList.forEach(record => {
-            record.createdAt = new Date(2020, 0, 1);
-        });
-        // 保存数据
-        window.localStorage.setItem('recordList', JSON.stringify(recordList));
-    }
-    window.localStorage.setItem('version', '0.0.2');
 
     @Component(
         {
@@ -40,7 +29,7 @@
         }
     )
     export default class Money extends Vue {
-        tags = tagList;
+        tags = window.tagList;
         record: RecordItem = {tags: [], notes: '', type: '-', amount: 0};
         recordList: RecordItem[] = recordList;
 
