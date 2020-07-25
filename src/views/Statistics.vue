@@ -3,8 +3,8 @@
         <Tabs :data-source="recordTypeList" :value.sync="type" class-prefix="type"/>
         <Tabs :data-source="intervalList" :value.sync="interval" class-prefix="interval"/>
         <ol>
-            <li v-for="(group, index) in result" :key="index">
-                <h3 class="title">{{group.title}}</h3>
+            <li v-for="group in result" :key="group.title">
+                <h3 class="title">{{beautify(group.title)}}</h3>
                 <ol>
                     <li v-for="item in group.items" :key="item.id" class="record">
                         <span>{{tagString(item.tags)}}</span>
@@ -23,6 +23,7 @@
     import Tabs from '@/components/Tabs.vue';
     import intervalList from '@/constants/intervalList';
     import recordTypeList from '@/constants/recordTypeList';
+    import dayjs from 'dayjs';
 
     @Component({
         components: {Tabs}
@@ -56,6 +57,23 @@
         tagString(tags: Tag[]) {
             return tags.length === 0 ? '无' : tags.join(',');
         }
+
+        beautify(string: string) {
+            const day = dayjs(string);
+            const now = dayjs();
+            if (day.isSame(now, 'day')) {
+                return '今天';
+            } else if (day.isSame(now.subtract(1, 'day'), 'day')) {
+                return '昨天';
+            } else if (day.isSame(now.subtract(2, 'day'), 'day')) {
+                return '前天';
+            } else if (day.isSame(now, 'year')) {
+                return day.format('M月D日');
+            } else {
+                return day.format('YYYY年M月D日');
+            }
+
+        }
     }
 </script>
 
@@ -76,21 +94,24 @@
         height: 48px;
     }
 
-    %item{
+    %item {
         padding: 8px 16px;
         line-height: 24px;
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
-    .title{
+
+    .title {
         @extend %item;
     }
-    .record{
+
+    .record {
         background: white;
         @extend %item;
     }
-    .notes{
+
+    .notes {
         margin-right: auto;
         margin-left: 16px;
         color: #999999;
