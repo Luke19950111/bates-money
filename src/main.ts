@@ -26,14 +26,14 @@ window.onload = function () {
     }, 0);
 };
 
-if (document.documentElement.clientWidth > 500) {
-    window.alert('请使用手机浏览，获取更好浏览体验');
-    const img = document.createElement('img');
-    img.src = '/qrcode.png';
-    img.style.position = 'fixed';
-    img.style.top = '50%';
-    img.style.left = '50%';
-    img.style.transform = 'translate(-50%, -50%)';
-    img.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.25)';
-    document.body.appendChild(img);
-}
+// if (document.documentElement.clientWidth > 500) {
+//     window.alert('请使用手机浏览，获取更好浏览体验');
+//     const img = document.createElement('img');
+//     img.src = './qrcode.png';
+//     img.style.position = 'fixed';
+//     img.style.top = '50%';
+//     img.style.left = '50%';
+//     img.style.transform = 'translate(-50%, -50%)';
+//     img.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.25)';
+//     document.body.appendChild(img);
+// }
