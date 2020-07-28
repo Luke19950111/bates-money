@@ -30,13 +30,16 @@
     import dayjs from 'dayjs';
     import clone from '@/lib/clone';
     import Chart from '@/components/Chart.vue';
+    import _ from 'lodash';
+    import day from 'dayjs';
 
     @Component({
         components: {Tabs, Chart}
     })
     export default class Statistics extends Vue {
         mounted() {
-            (this.$refs.chartWrapper as HTMLDivElement).scrollLeft = 9999;
+            const div = (this.$refs.chartWrapper as HTMLDivElement);
+            div.scrollLeft = div.scrollWidth;
         }
 
         get recordList() {
@@ -112,16 +115,37 @@
 
         }
 
+        get y() {
+            const today = new Date();
+            const array = [];
+            for (let i = 0; i <= 29; i++) {
+                const dataString = day(today).subtract(i, 'day').format('YYYY-MM-DD');
+                const found = _.find(this.recordList, {createdAt: dataString});
+                array.push({
+                    date: dataString,
+                    value: found ? found.amount : 0
+                });
+            }
+            array.sort((a, b) => {
+                if (a.date > b.date) {
+                    return 1;
+                } else if (a.date === b.date) {
+                    return 0;
+                } else {
+                    return -1;
+                }
+            });
+            return array;
+        }
+
         get x() {
+
+            const keys = this.y.map(item => item.date);
+            const values = this.y.map(item => item.value);
             return {
                 xAxis: {
                     type: 'category',
-                    data: [
-                        'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
-                        'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
-                        'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
-                        'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
-                    ],
+                    data: keys,
                     axisTick: {show: false},
                     axisLine: {
                         lineStyle: {color: '#666'}
@@ -132,12 +156,7 @@
                     show: false
                 },
                 series: [{
-                    data: [
-                        820, 932, 901, 934, 1290, 1330, 1320,
-                        820, 932, 901, 934, 1290, 1330, 1320,
-                        820, 932, 901, 934, 1290, 1330, 1320,
-                        820, 932, 901, 934, 1290, 1330, 1320
-                    ],
+                    data: values,
                     type: 'line',
                     symbol: 'circle',
                     symbolSize: 15,
