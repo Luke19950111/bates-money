@@ -1,7 +1,9 @@
 <template>
     <Layout>
         <Tabs :data-source="recordTypeList" :value.sync="type" class-prefix="type"/>
-        <Chart :options="x"/>
+        <div class="chart-wrapper" ref="chartWrapper">
+            <Chart :options="x" class="chart"/>
+        </div>
         <ol v-if="groupedList.length>0">
             <li v-for="(group, index) in groupedList" :key="index">
                 <h3 class="title">{{beautify(group.title)}}<span>￥{{group.total}}</span></h3>
@@ -33,6 +35,10 @@
         components: {Tabs, Chart}
     })
     export default class Statistics extends Vue {
+        mounted() {
+            (this.$refs.chartWrapper as HTMLDivElement).scrollLeft = 9999;
+        }
+
         get recordList() {
             return (this.$store.state as RootState).recordList;
         }
@@ -115,10 +121,15 @@
                         'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
                         'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
                         'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
-                    ]
+                    ],
+                    axisTick: {show: false},
+                    axisLine: {
+                        lineStyle: {color: '#666'}
+                    }
                 },
                 yAxis: {
-                    type: 'value'
+                    type: 'value',
+                    show: false
                 },
                 series: [{
                     data: [
@@ -127,9 +138,23 @@
                         820, 932, 901, 934, 1290, 1330, 1320,
                         820, 932, 901, 934, 1290, 1330, 1320
                     ],
-                    type: 'line'
+                    type: 'line',
+                    symbol: 'circle',
+                    symbolSize: 15,
+                    itemStyle: {color: '#666'}
                 }],
-                tooltip: {show: true}
+                tooltip: {
+                    show: true,
+                    triggerOn: 'click',
+                    position: 'top',
+                    formatter: '{c}'
+                },
+                grid: {
+                    left: 0,
+                    right: 0,
+                    // top: 0,
+                    // bottom: 0
+                }
             };
         }
     }
@@ -174,5 +199,17 @@
     .noResult {
         padding: 16px;
         text-align: center;
+    }
+
+    .chart-wrapper {
+        overflow: auto;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        > .chart {
+            width: 410%;
+        }
     }
 </style>
