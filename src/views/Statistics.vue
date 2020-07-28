@@ -1,6 +1,7 @@
 <template>
     <Layout>
         <Tabs :data-source="recordTypeList" :value.sync="type" class-prefix="type"/>
+        <Chart :options="x"/>
         <ol v-if="groupedList.length>0">
             <li v-for="(group, index) in groupedList" :key="index">
                 <h3 class="title">{{beautify(group.title)}}<span>￥{{group.total}}</span></h3>
@@ -26,9 +27,10 @@
     import recordTypeList from '@/constants/recordTypeList';
     import dayjs from 'dayjs';
     import clone from '@/lib/clone';
+    import Chart from '@/components/Chart.vue';
 
     @Component({
-        components: {Tabs}
+        components: {Tabs, Chart}
     })
     export default class Statistics extends Vue {
         get recordList() {
@@ -103,6 +105,33 @@
             }
 
         }
+
+        get x() {
+            return {
+                xAxis: {
+                    type: 'category',
+                    data: [
+                        'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+                        'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+                        'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+                        'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+                    ]
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    data: [
+                        820, 932, 901, 934, 1290, 1330, 1320,
+                        820, 932, 901, 934, 1290, 1330, 1320,
+                        820, 932, 901, 934, 1290, 1330, 1320,
+                        820, 932, 901, 934, 1290, 1330, 1320
+                    ],
+                    type: 'line'
+                }],
+                tooltip: {show: true}
+            };
+        }
     }
 </script>
 
@@ -141,7 +170,8 @@
         margin-left: 16px;
         color: #999999;
     }
-    .noResult{
+
+    .noResult {
         padding: 16px;
         text-align: center;
     }
